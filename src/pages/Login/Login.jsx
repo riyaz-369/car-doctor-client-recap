@@ -22,12 +22,16 @@ const Login = () => {
         const loggedInUser = result.user;
         console.log(loggedInUser);
         const user = { email };
-        // navigate(location?.state ? location?.state : "/");
 
         // get access token
-        axios.post("http://localhost:5000/jwt", user).then((data) => {
-          console.log(data.data);
-        });
+        axios
+          .post("http://localhost:5000/jwt", user, { withCredentials: true })
+          .then((data) => {
+            // console.log(data.data);
+            if (data.data.success) {
+              navigate(location?.state ? location?.state : "/");
+            }
+          });
       })
       .catch((error) => {
         console.log(error);
