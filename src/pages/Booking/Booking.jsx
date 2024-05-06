@@ -1,21 +1,27 @@
 import { useEffect, useState } from "react";
 import TableRow from "./TableRow";
 import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Booking = () => {
   const { user } = useAuth();
-
   const [bookings, setBooking] = useState([]);
+  const axiosSecure = useAxiosSecure();
 
-  const url = `http://localhost:5000/bookings?email=${user.email}`;
+  const url = `/bookings?email=${user.email}`;
+  // const url = `http://localhost:5000/bookings?email=${user.email}`;
 
   useEffect(() => {
-    fetch(url, { credentials: "include" })
-      .then((res) => res.json())
-      .then((data) => {
-        setBooking(data);
-      });
-  }, [url]);
+    axiosSecure.get(url).then((data) => {
+      setBooking(data.data);
+    });
+
+    // fetch(url, { credentials: "include" })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     setBooking(data);
+    //   });
+  }, [url, axiosSecure]);
 
   const handelDelete = (id) => {
     const proceed = confirm("Are you sure");
