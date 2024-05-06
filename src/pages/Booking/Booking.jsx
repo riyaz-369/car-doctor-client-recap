@@ -1,9 +1,10 @@
-import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../providers/AuthProvider";
+import { useEffect, useState } from "react";
 import TableRow from "./TableRow";
+import useAuth from "../../hooks/useAuth";
 
 const Booking = () => {
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
+
   const [bookings, setBooking] = useState([]);
 
   const url = `http://localhost:5000/bookings?email=${user.email}`;
